@@ -2,7 +2,6 @@
 
 {% block content %}
 
-{% if user.is_authenticated %}
 {% load crispy_forms_tags %}
 <div class="container">
   <!--Django Form-->
@@ -20,6 +19,7 @@
       <div class="card h-100 p-4">
         {{s.title}}
         <a href="/media/{{s.file}}">Play </a>
+        <a href="{% url 'song:delete' s.id %}">Delete</a>
       </div>
     </div>
     {% empty %}
@@ -27,8 +27,5 @@
     {% endfor %}
   </div>
 </div>
-{% else %}
-PLease log in first!
-{% endif %}
 
 {% endblock %}
