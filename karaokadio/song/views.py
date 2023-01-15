@@ -12,7 +12,7 @@ def upload(request):
 			song = form.save(commit=False)
 			song.user = user
 			song.save()
-			form = UploadForm()
+			return redirect("song:upload")
 	songs = Song.objects.filter(user=user)
 	return render(request=request, template_name="song/upload.html", context={'form': form, 'songs': songs})
 
