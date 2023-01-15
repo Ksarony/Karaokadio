@@ -7,4 +7,5 @@ urlpatterns = [
 	path("admin/", admin.site.urls),
 	re_path(r'^', include('home.urls')),
 	re_path(r'^song/', include('song.urls')),
+	re_path(r'^station/', include('station.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     "django_cleanup.apps.CleanupConfig",
     "crispy_forms",
     "home",
-    "song"
+    "song",
+    "station"
 ]
 
 MIDDLEWARE = [

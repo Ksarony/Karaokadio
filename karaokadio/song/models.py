@@ -16,7 +16,7 @@ def song_size_limiter(value):
 
 
 class Song(models.Model):
-	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 	title = models.CharField(max_length=100)
 	file = models.FileField(
 		upload_to=song_path,
