@@ -19,6 +19,7 @@ def song_size_limiter(value):
 
 class Song(models.Model):
 	created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+	created_at = models.DateTimeField(auto_now_add=True)
 	title = models.CharField(max_length=100)
 	station = models.ForeignKey(Station, on_delete=models.SET_NULL, null=True)
 	file = models.FileField(

@@ -19,7 +19,8 @@ def index(request):
 
 def listen_station(request, id):
 	station = Station.objects.get(pk=id)
-	return HttpResponse(station.description)
+	song = station.song_set.first()
+	return HttpResponse(song.title)
 
 
 def delete_station(request, id):
