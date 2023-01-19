@@ -5,4 +5,4 @@ from .models import Song
 class UploadForm(forms.ModelForm):
 	class Meta:
 		model = Song
-		fields = ['title', 'file']
+		fields = ['title', 'station', 'file']
