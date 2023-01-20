@@ -8,6 +8,14 @@
   <audio id="audio" controls autoplay controlsList="nodownload noplaybackrate">
     <source src="/media/{{song.file}}">
   </audio>
+  <br>
+  <div id="like-section">
+    {% if user in song.liked_by.all %}
+      Liked
+    {% else %}
+      <button id="like-button" style="height:30px;width:80px;">Like</button>
+    {% endif %}
+  </div>
 </div>
 
 <script type="text/javascript">
@@ -15,6 +23,22 @@
 	audio.onended = function() {
 		window.location = "{% url 'station:listen' station.id %}";
 	}
+
+  var likeButton = document.getElementById("like-button");
+	likeButton.onclick = function() {
+	  $.ajax({
+      type: 'POST',
+      'data': {
+        'csrfmiddlewaretoken': '{{ csrf_token }}',
+      },
+      url: "{% url 'song:like' song.id %}",
+      success: function(response) {
+        document.getElementById("like-section").innerHTML = "Liked";
+      },
+    })
+	}
+
+
 </script>
 
 {% endblock %}

@@ -29,6 +29,7 @@ class Song(models.Model):
 			song_size_limiter
 		]
 	)
+	liked_by = models.ManyToManyField(User, related_name='liked_songs')
 
 	class Meta:
 		ordering = ('-created_at',)

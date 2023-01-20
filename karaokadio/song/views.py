@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.views.generic import ListView
 
@@ -24,6 +25,15 @@ def upload(request):
 			song.save()
 			return redirect("song:list")
 	return render(request=request, template_name="song/upload.html", context={'form': form})
+
+
+def like(request, id):
+	song = Song.objects.get(pk=id)
+	song.liked_by.add(request.user)
+	return JsonResponse({"success": 'Liked successfully'}, status=200)
+
+
+# return JsonResponse({"error": "Unsupported action"}, status=403)
 
 
 def delete(request, id):
