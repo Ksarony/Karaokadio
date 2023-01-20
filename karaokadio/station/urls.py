@@ -1,10 +1,12 @@
 from django.urls import path
 from . import views, apps
+from .views import StationListView
 
 app_name = apps.StationConfig.name
 
 urlpatterns = [
-	path('', views.index, name='index'),
+	path('list', StationListView.as_view(), name='list'),
+	path('create', views.create, name='create'),
 	path('listen/<id>', views.listen_station, name='listen'),
 	path('delete/<id>', views.delete_station, name='delete'),
 ]

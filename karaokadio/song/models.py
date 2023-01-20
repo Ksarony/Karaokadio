@@ -29,3 +29,6 @@ class Song(models.Model):
 			song_size_limiter
 		]
 	)
+
+	class Meta:
+		ordering = ('-created_at',)

@@ -1,0 +1,48 @@
+{% extends 'home/includes/base.html' %}
+
+{% block content %}
+
+<h2 class="my-4">Stations</h2>
+<div class="row">
+  {% for station in page_obj %}
+  <div class="col-lg-4 col-md-6 col-sm-12 pb-4">
+    <div class="card h-100 p-4">
+      {{station.name}}
+      <a href="{% url 'station:listen' station.id %}">Listen</a>
+      {% if user.is_superuser %}
+        <a href="{% url 'station:delete' station.id %}">Delete</a>
+      {% endif %}
+    </div>
+  </div>
+  {% empty %}
+  <div class="col-lg-4 col-md-6 col-sm-12 pb-4">
+    <p>There's no station yet.</p>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="pagination">
+  <span class="step-links">
+    {% if page_obj.has_previous %}
+      <a href="?page=1">&laquo; first</a>
+      <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+    {% endif %}
+    <span class="current">
+      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+    </span>
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}">next</a>
+      <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+    {% endif %}
+  </span>
+</div>
+
+<br>
+
+{% if user.is_superuser %}
+  <a href="{% url 'station:create' %}">Create New</a>
+{% endif %}
+
+
+{% endblock %}
+

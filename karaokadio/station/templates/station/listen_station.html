@@ -1,0 +1,20 @@
+{% extends 'home/includes/base.html' %}
+
+{% block content %}
+
+<h1 class="my-4">{{station.name}}</h1>
+<div class="card h-100 p-4" >
+  <h2 class="my-4">{{song.title}}, by {{song.created_by.username}} </h2>
+  <audio id="audio" controls autoplay controlsList="nodownload noplaybackrate">
+    <source src="/media/{{song.file}}">
+  </audio>
+</div>
+
+<script type="text/javascript">
+	var audio = document.getElementById("audio");
+	audio.onended = function() {
+		window.location = "{% url 'station:listen' station.id %}";
+	}
+</script>
+
+{% endblock %}

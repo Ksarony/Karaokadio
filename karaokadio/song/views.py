@@ -11,12 +11,7 @@ class SongListView(ListView):
 
 	def get_queryset(self):
 		qs = super().get_queryset()
-		return qs.filter(created_by=self.request.user).order_by('-created_at')
-
-
-def play(request, id):
-	song = Song.objects.get(pk=id)
-	return render(request=request, template_name="song/play.html", context={'song': song})
+		return qs.filter(created_by=self.request.user)
 
 
 def upload(request):

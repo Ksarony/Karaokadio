@@ -5,6 +5,6 @@
 {% if user.is_authenticated %}
 <a href="{% url 'song:upload' %}">Sing</a>
 {% endif %}
-<a href="{% url 'station:index' %}">Stations</a>
+<a href="{% url 'station:list' %}">Stations</a>
 
 {% endblock %}
