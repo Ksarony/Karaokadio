@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import redirect, render, HttpResponse
 from django.views.generic import ListView
 import random
@@ -13,7 +14,7 @@ class StationListView(ListView):
 
 	def get_queryset(self):
 		qs = super().get_queryset()
-		return qs.filter(created_by=self.request.user).order_by('name')
+		return qs.order_by('name')
 
 
 def create(request):
@@ -34,6 +35,12 @@ def listen_station(request, id):
 	random_pk = random.choice(song_pks)
 	song = Song.objects.get(pk=random_pk)
 	return render(request, 'station/listen_station.html', {'station': station, 'song': song})
+
+
+def subscribe(request, id):
+	station = Station.objects.get(pk=id)
+	station.subscribed_by.add(request.user)
+	return JsonResponse({"success": 'Subscribed successfully'}, status=200)
 
 
 def delete_station(request, id):

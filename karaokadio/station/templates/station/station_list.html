@@ -12,8 +12,30 @@
       {% if user.is_superuser %}
         <a href="{% url 'station:delete' station.id %}">Delete</a>
       {% endif %}
+      <div id="subscribe-section-{{station.id}}">
+        {% if user in station.subscribed_by.all %}
+          Subscribed
+        {% else %}
+          <button id="subscribe-button-{{station.id}}" style="height:30px;width:100px;">Subscribe</button>
+        {% endif %}
+      </div>
     </div>
   </div>
+  <script type="text/javascript">
+    var subscribeButton = document.getElementById("subscribe-button-{{station.id}}");
+    subscribeButton.onclick = function() {
+      $.ajax({
+        type: 'POST',
+        'data': {
+          'csrfmiddlewaretoken': '{{ csrf_token }}',
+        },
+        url: "{% url 'station:subscribe' station.id %}",
+        success: function(response) {
+          document.getElementById("subscribe-section-{{station.id}}").innerHTML = "Subscribed";
+        },
+      })
+    }
+  </script>
   {% empty %}
   <div class="col-lg-4 col-md-6 col-sm-12 pb-4">
     <p>There's no station yet.</p>
