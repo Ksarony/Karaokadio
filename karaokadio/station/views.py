@@ -1,7 +1,9 @@
+from django.db.models import Case, When, Q, Value, IntegerField
 from django.http import JsonResponse
 from django.shortcuts import redirect, render, HttpResponse
 from django.views.generic import ListView
 import random
+from itertools import chain
 
 from song.models import Song
 from .models import Station
@@ -13,8 +15,17 @@ class StationListView(ListView):
 	paginate_by = 9
 
 	def get_queryset(self):
-		qs = super().get_queryset()
-		return qs.order_by('name')
+		return Station.objects.raw(
+			f'''
+				SELECT * FROM station_station
+				ORDER BY id IN (
+					SELECT station_station.id FROM station_station 
+					INNER JOIN station_station_subscribed_by 
+					ON (station_station.id = station_station_subscribed_by.station_id) 
+					WHERE station_station_subscribed_by.user_id = {self.request.user.id}
+				) DESC, name
+			'''
+		)
 
 
 def create(request):
