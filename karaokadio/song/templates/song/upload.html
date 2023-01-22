@@ -9,10 +9,10 @@
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
       {{form|crispy}}
-        <button class="btn btn-dark my-4" type="submit">Upload</button>
+        <button class="btn btn-info my-4" type="submit">Upload</button>
   </form>
 
-  <a href="{% url 'song:list' %}">Your Uploads</a>
+  <a class="btn btn-info" href="{% url 'song:list' %}">Your Uploads</a>
 </div>
 
 {% endblock %}
