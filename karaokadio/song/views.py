@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import ListView
 
 from .forms import UploadForm
-from .models import Song
+from .models import Song, Like
 
 
 class SongListView(ListView):
@@ -28,12 +28,14 @@ def upload(request):
 
 
 def like(request, id):
+	user = request.user
 	song = Song.objects.get(pk=id)
-	song.liked_by.add(request.user)
+	if Like.objects.filter(song=song, liked_by=user).exists():
+		return JsonResponse({"error": 'Already liked'}, status=409)
+	Like(song=song, liked_by=request.user).save()
+	song.like_count += 1
+	song.save()
 	return JsonResponse({"success": 'Liked successfully'}, status=200)
-
-
-# return JsonResponse({"error": "Unsupported action"}, status=403)
 
 
 def delete(request, id):

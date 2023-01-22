@@ -2,6 +2,7 @@
 
 {% block content %}
 
+{% if song %}
 <h1 class="my-4">{{station.name}}</h1>
 <div class="card h-100 p-4" >
   <h2 class="my-4">{{song.title}}, by {{song.created_by.username}} </h2>
@@ -9,13 +10,15 @@
     <source src="/media/{{song.file}}">
   </audio>
   <br>
+  {% if user.is_authenticated %}
   <div id="like-section">
-    {% if user in song.liked_by.all %}
+    {% if liked %}
       Liked
     {% else %}
       <button id="like-button" style="height:30px;width:80px;">Like</button>
     {% endif %}
   </div>
+  {% endif %}
 </div>
 
 <script type="text/javascript">
@@ -38,5 +41,9 @@
     })
 	}
 </script>
+
+{% else %}
+There's no song yet.
+{% endif %}
 
 {% endblock %}
