@@ -24,10 +24,8 @@ class StationListView(ListView):
 			f'''
 				SELECT * FROM station_station
 				ORDER BY id IN (
-					SELECT station_station.id FROM station_station 
-					INNER JOIN station_station_subscribed_by 
-					ON (station_station.id = station_station_subscribed_by.station_id) 
-					WHERE station_station_subscribed_by.user_id = {self.request.user.id}
+					SELECT station_id FROM station_station_subscribed_by 
+					WHERE user_id = {self.request.user.id}
 				) DESC, name
 			'''
 		)
