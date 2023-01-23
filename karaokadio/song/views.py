@@ -67,11 +67,11 @@ def stats(request):
 			f'''
 				SELECT title, like_count FROM song_song
 				WHERE created_by_id = {request.user.id}
-				ORDER BY like_count
+				ORDER BY like_count DESC
 				LIMIT 10;
 			'''
 		)
-		all_times_hit_df = pd.DataFrame(cursor.fetchall())
+		all_times_hit_df = pd.DataFrame(cursor.fetchall()).iloc[::-1]
 
 		cursor.execute(
 			f'''
@@ -81,11 +81,11 @@ def stats(request):
 						WHERE song_song.created_by_id = {request.user.id}
 						AND song_like.liked_at >= DATE('now', '-30 Day')
 						GROUP BY song_song.id
-						ORDER BY C
+						ORDER BY C DESC
 						LIMIT 10;
 					'''
 		)
-		monthly_hit_df = pd.DataFrame(cursor.fetchall())
+		monthly_hit_df = pd.DataFrame(cursor.fetchall()).iloc[::-1]
 
 	all_times_hit = '' if all_times_hit_df.size == 0 else get_plot(all_times_hit_df, 'Your All-Time Hits')
 	monthly_hit = '' if monthly_hit_df.size == 0 else get_plot(monthly_hit_df, 'Your Monthly Hits')
